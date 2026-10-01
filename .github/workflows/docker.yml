@@ -57,17 +57,3 @@ jobs:
             ghcr.io/btstream/metatube-server:dev
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Build and Push (latest)
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ghcr.io/btstream/metatube-server:latest
-            ghcr.io/btstream/metatube-server:${{ steps.shell.outputs.version }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
