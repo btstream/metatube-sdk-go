@@ -52,8 +52,15 @@ func New() *JavBus {
 			scraper.WithDisableRedirects(),
 			scraper.WithHeaders(map[string]string{
 				"Referer": baseURL,
+				// JavBus redirects to the age verification page
+				// (https://www.javbus.com/doc/driver-verify) when the request
+				// does not carry an accepted Accept-Language. Only zh-CN is
+				// whitelisted, so advertise it to skip the age gate.
+				"Accept-Language": "zh-CN,zh;q=0.9",
 			}),
 			scraper.WithCookies(baseURL, []*http.Cookie{
+				// age=verified
+				{Name: "age", Value: "verified"},
 				// existmag=all
 				{Name: "existmag", Value: "all"},
 			})),
